@@ -1,0 +1,12 @@
+# stage 1 Generate Tendermint Binary
+FROM tendermint/tendermint_isolate:latest
+COPY --chown=tmuser:tmuser /temp /tendermint
+COPY --chown=tmuser:tmuser /build/tendermint /usr/bin/tendermint
+COPY --chown=tmuser:tmuser ./DOCKER/docker-entrypoint.sh /usr/local/bin/
+ENV TMHOME /tendermint
+USER tmuser
+WORKDIR $TMHOME
+STOPSIGNAL SIGTERM
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["start"]
